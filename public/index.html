@@ -7,12 +7,12 @@
 <body>
     <div class="container">
         <h1>Обняли <span id="counter">0</span> раз</h1>
-        <button id="hug-button">Обнять ❤️</button>
+        <button id="hug-btn">Обнять ❤️</button>
     </div>
 
     <script>
         const counterEl = document.getElementById('counter');
-        const button = document.getElementById('hug-button');
+        const btn = document.getElementById('hug-btn');
 
         // Загрузка счетчика
         fetch('/api/hug')
@@ -20,10 +20,14 @@
             .then(data => counterEl.textContent = data.count);
 
         // Отправка обнимашки
-        button.addEventListener('click', () => {
+        btn.addEventListener('click', () => {
             fetch('/api/hug', { method: 'POST' })
                 .then(res => res.json())
-                .then(data => counterEl.textContent = data.count);
+                .then(data => {
+                    counterEl.textContent = data.count;
+                    btn.textContent = 'Обнято! 😊';
+                    setTimeout(() => btn.textContent = 'Обнять ❤️', 1000);
+                });
         });
     </script>
 </body>
