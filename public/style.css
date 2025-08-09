@@ -1,29 +1,54 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #fff0f5;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
+    color: #333;
 }
 
 .container {
     text-align: center;
+    background: white;
+    padding: 2rem 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+#counter {
+    font-weight: bold;
+    color: #e74c3c;
+    font-size: 2rem;
 }
 
 #hug-btn {
-    padding: 15px 30px;
-    font-size: 20px;
-    background: #ff6b81;
+    background: #e74c3c;
     color: white;
     border: none;
+    padding: 12px 30px;
+    font-size: 1.2rem;
     border-radius: 50px;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
 }
 
 #hug-btn:hover {
-    background: #ff4757;
-    transform: scale(1.05);
+    background: #c0392b;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+}
+
+#hug-btn:active {
+    transform: translateY(1px);
 }

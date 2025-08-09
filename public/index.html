@@ -1,30 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Обнимашки</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счётчик обнимашек</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Обняли <span id="counter">0</span> раз</h1>
-        <button id="hug-btn">Обнять ❤️</button>
+        <h1>Меня обняли <span id="counter">0</span> раз ❤️</h1>
+        <button id="hug-btn">Обнять</button>
     </div>
 
     <script>
         const counterEl = document.getElementById('counter');
         const btn = document.getElementById('hug-btn');
 
+        // Загрузка счетчика
         fetch('/api/hug')
             .then(res => res.json())
             .then(data => counterEl.textContent = data.count);
 
+        // Отправка обнимашки
         btn.addEventListener('click', () => {
+            btn.disabled = true;
             fetch('/api/hug', { method: 'POST' })
                 .then(res => res.json())
                 .then(data => {
                     counterEl.textContent = data.count;
                     btn.textContent = 'Обнято! 😊';
-                    setTimeout(() => btn.textContent = 'Обнять ❤️', 1000);
+                    setTimeout(() => {
+                        btn.textContent = 'Обнять';
+                        btn.disabled = false;
+                    }, 1000);
                 });
         });
     </script>
