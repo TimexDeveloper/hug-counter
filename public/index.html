@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Обнимашки ❤️</title>
+    <title>Обнимашки</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Меня обняли <span id="count">0</span> раз!</h1>
-        <button id="hug-btn">Обнять ❤️</button>
+        <h1>Обняли <span id="counter">0</span> раз</h1>
+        <button id="hug-button">Обнять ❤️</button>
     </div>
+
     <script>
-        const updateCounter = () => {
-            fetch('/api/hug')
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('count').textContent = data.count;
-                });
-        };
+        const counterEl = document.getElementById('counter');
+        const button = document.getElementById('hug-button');
 
-        document.getElementById('hug-btn').addEventListener('click', () => {
+        // Загрузка счетчика
+        fetch('/api/hug')
+            .then(res => res.json())
+            .then(data => counterEl.textContent = data.count);
+
+        // Отправка обнимашки
+        button.addEventListener('click', () => {
             fetch('/api/hug', { method: 'POST' })
-                .then(updateCounter);
+                .then(res => res.json())
+                .then(data => counterEl.textContent = data.count);
         });
-
-        // Первоначальная загрузка
-        updateCounter();
     </script>
 </body>
 </html>
