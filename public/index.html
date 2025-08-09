@@ -14,12 +14,10 @@
         const counterEl = document.getElementById('counter');
         const btn = document.getElementById('hug-btn');
 
-        // Загрузка счетчика
         fetch('/api/hug')
             .then(res => res.json())
             .then(data => counterEl.textContent = data.count);
 
-        // Отправка обнимашки
         btn.addEventListener('click', () => {
             fetch('/api/hug', { method: 'POST' })
                 .then(res => res.json())
