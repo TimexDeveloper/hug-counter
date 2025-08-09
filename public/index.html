@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Обнимашки ❤️</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Меня обняли <span id="count">0</span> раз!</h1>
+        <button id="hug-btn">Обнять ❤️</button>
+    </div>
+    <script>
+        const updateCounter = () => {
+            fetch('/api/hug')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('count').textContent = data.count;
+                });
+        };
+
+        document.getElementById('hug-btn').addEventListener('click', () => {
+            fetch('/api/hug', { method: 'POST' })
+                .then(updateCounter);
+        });
+
+        // Первоначальная загрузка
+        updateCounter();
+    </script>
+</body>
+</html>
