@@ -16,6 +16,10 @@
       "dest": "/api/hug.py"
     },
     {
+      "src": "/style.css",
+      "dest": "/public/style.css"
+    },
+    {
       "src": "/(.*)",
       "dest": "/public/index.html"
     }

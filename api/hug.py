@@ -5,27 +5,29 @@ import json
 COUNTER = 0
 
 def handler(request, response):
-    class HugHandler(BaseHTTPRequestHandler):
-        def _set_headers(self):
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.send_header('Access-Control-Allow-Origin', '*')
-            self.end_headers()
-        
-        def do_GET(self):
-            self._set_headers()
-            self.wfile.write(json.dumps({'count': COUNTER}).encode())
-        
-        def do_POST(self):
-            global COUNTER
-            COUNTER += 1
-            self._set_headers()
-            self.wfile.write(json.dumps({'count': COUNTER}).encode())
-
-    h = HugHandler(request, response, None)
-    if request.method == 'GET':
-        h.do_GET()
-    elif request.method == 'POST':
-        h.do_POST()
+    # Устанавливаем заголовки
+    response.headers['Content-Type'] = 'application/json'
+    response.headers['Access-Control-Allow-Origin'] = '*'
     
+    # Глобальная переменная для счетчика (временное решение)
+    global count
+    try:
+        count
+    except NameError:
+        count = 0
+    
+    # Обработка GET-запроса
+    if request.method == 'GET':
+        response.body = f'{{"count": {count}}}'.encode()
+        return response
+    
+    # Обработка POST-запроса
+    if request.method == 'POST':
+        count += 1
+        response.body = f'{{"count": {count}}}'.encode()
+        return response
+    
+    # Для других методов
+    response.status = 405
+    response.body = b'Method Not Allowed'
     return response

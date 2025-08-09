@@ -7,34 +7,54 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+    <!-- Декоративные пузыри -->
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    
     <div class="container">
-        <h1>Меня обняли <span id="counter">0</span> раз ❤️</h1>
-        <button id="hug-btn">Обнять</button>
+        <h1>Меня обняли<br><span id="count">0</span> раз!</h1>
+        <button id="hug-btn">ОБНЯТЬ ❤️</button>
     </div>
 
     <script>
-        const counterEl = document.getElementById('counter');
         const btn = document.getElementById('hug-btn');
-
-        // Загрузка счетчика
-        fetch('/api/hug')
-            .then(res => res.json())
-            .then(data => counterEl.textContent = data.count);
-
+        const countEl = document.getElementById('count');
+        
+        // Загрузка текущего счетчика
+        async function loadCount() {
+            try {
+                const response = await fetch('/api/hug');
+                const data = await response.json();
+                countEl.textContent = data.count;
+            } catch (error) {
+                console.error('Ошибка загрузки счетчика:', error);
+            }
+        }
+        
         // Отправка обнимашки
-        btn.addEventListener('click', () => {
+        async function sendHug() {
             btn.disabled = true;
-            fetch('/api/hug', { method: 'POST' })
-                .then(res => res.json())
-                .then(data => {
-                    counterEl.textContent = data.count;
-                    btn.textContent = 'Обнято! 😊';
-                    setTimeout(() => {
-                        btn.textContent = 'Обнять';
-                        btn.disabled = false;
-                    }, 1000);
-                });
-        });
+            btn.textContent = 'ОБНЯТО! 😊';
+            
+            try {
+                const response = await fetch('/api/hug', { method: 'POST' });
+                const data = await response.json();
+                countEl.textContent = data.count;
+            } catch (error) {
+                console.error('Ошибка отправки:', error);
+            }
+            
+            setTimeout(() => {
+                btn.textContent = 'ОБНЯТЬ ❤️';
+                btn.disabled = false;
+            }, 1000);
+        }
+        
+        // Инициализация
+        loadCount();
+        btn.addEventListener('click', sendHug);
     </script>
 </body>
 </html>
