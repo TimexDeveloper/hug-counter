@@ -1,0 +1,29 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #fff0f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    text-align: center;
+}
+
+#hug-btn {
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #ff6b81;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#hug-btn:hover {
+    background: #ff4757;
+    transform: scale(1.05);
+}

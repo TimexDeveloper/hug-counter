@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "api/hug.py", "use": "@vercel/python" },
+    { "src": "templates/index.html", "use": "@vercel/static" },
+    { "src": "static/*", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/hug", "dest": "/api/hug.py" },
+    { "src": "/static/(.*)", "dest": "/static/$1" },
+    { "src": "/(.*)", "dest": "/templates/index.html" }
+  ]
+}
