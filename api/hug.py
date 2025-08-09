@@ -1,33 +1,27 @@
-from http.server import BaseHTTPRequestHandler
 import json
 
-# Глобальная переменная для хранения состояния
-COUNTER = 0
+# Глобальная переменная для счетчика
+counter = 0
 
 def handler(request, response):
-    # Устанавливаем заголовки
-    response.headers['Content-Type'] = 'application/json'
-    response.headers['Access-Control-Allow-Origin'] = '*'
+    global counter
     
-    # Глобальная переменная для счетчика (временное решение)
-    global count
-    try:
-        count
-    except NameError:
-        count = 0
+    # Устанавливаем заголовки
+    response.headers["Content-Type"] = "application/json"
+    response.headers["Access-Control-Allow-Origin"] = "*"
     
     # Обработка GET-запроса
-    if request.method == 'GET':
-        response.body = f'{{"count": {count}}}'.encode()
+    if request.method == "GET":
+        response.body = json.dumps({"count": counter}).encode()
         return response
     
     # Обработка POST-запроса
-    if request.method == 'POST':
-        count += 1
-        response.body = f'{{"count": {count}}}'.encode()
+    if request.method == "POST":
+        counter += 1
+        response.body = json.dumps({"count": counter}).encode()
         return response
     
     # Для других методов
     response.status = 405
-    response.body = b'Method Not Allowed'
+    response.body = json.dumps({"error": "Method not allowed"}).encode()
     return response
