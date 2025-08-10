@@ -1,60 +1,115 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Счётчик обнимашек</title>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Счётчик обнимашек</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      max-width: 450px;
+      width: 90%;
+    }
+    
+    h1 {
+      color: #d32f2f;
+      font-size: 2.2rem;
+      margin-bottom: 1.8rem;
+    }
+    
+    #count {
+      font-weight: 800;
+      font-size: 3.5rem;
+      color: #d32f2f;
+      display: block;
+      margin: 10px 0;
+    }
+    
+    #hug-btn {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      color: white;
+      border: none;
+      padding: 16px 45px;
+      font-size: 1.4rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.4s;
+      box-shadow: 0 7px 15px rgba(255, 65, 108, 0.4);
+      font-weight: 600;
+    }
+    
+    #hug-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 20px rgba(255, 65, 108, 0.5);
+    }
+    
+    #hug-btn:active {
+      transform: translateY(2px);
+    }
+  </style>
 </head>
 <body>
-    <!-- Декоративные пузыри -->
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    <div class="bubble"></div>
-    
-    <div class="container">
-        <h1>Меня обняли<br><span id="count">0</span> раз!</h1>
-        <button id="hug-btn">ОБНЯТЬ ❤️</button>
-    </div>
+  <div class="container">
+    <h1>Меня обняли</h1>
+    <span id="count">0</span>
+    <h1>раз!</h1>
+    <button id="hug-btn">ОБНЯТЬ ❤️</button>
+  </div>
 
-    <script>
-        const btn = document.getElementById('hug-btn');
-        const countEl = document.getElementById('count');
-        
-        // Загрузка текущего счетчика
-        async function loadCount() {
-            try {
-                const response = await fetch('/api/hug');
-                const data = await response.json();
-                countEl.textContent = data.count;
-            } catch (error) {
-                console.error('Ошибка загрузки счетчика:', error);
-            }
-        }
-        
-        // Отправка обнимашки
-        async function sendHug() {
-            btn.disabled = true;
-            btn.textContent = 'ОБНЯТО! 😊';
-            
-            try {
-                const response = await fetch('/api/hug', { method: 'POST' });
-                const data = await response.json();
-                countEl.textContent = data.count;
-            } catch (error) {
-                console.error('Ошибка отправки:', error);
-            }
-            
-            setTimeout(() => {
-                btn.textContent = 'ОБНЯТЬ ❤️';
-                btn.disabled = false;
-            }, 1000);
-        }
-        
-        // Инициализация
-        loadCount();
-        btn.addEventListener('click', sendHug);
-    </script>
+  <script>
+    const btn = document.getElementById('hug-btn');
+    const countEl = document.getElementById('count');
+    
+    // Загрузка текущего счетчика
+    async function loadCount() {
+      try {
+        const response = await fetch('/api/hug');
+        const data = await response.json();
+        countEl.textContent = data.count;
+      } catch (error) {
+        console.error('Ошибка загрузки счетчика:', error);
+      }
+    }
+    
+    // Отправка обнимашки
+    async function sendHug() {
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = 'ОБНЯТО! 😊';
+      
+      try {
+        const response = await fetch('/api/hug', { method: 'POST' });
+        const data = await response.json();
+        countEl.textContent = data.count;
+      } catch (error) {
+        console.error('Ошибка отправки:', error);
+      }
+      
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }, 1000);
+    }
+    
+    // Инициализация
+    loadCount();
+    btn.addEventListener('click', sendHug);
+  </script>
 </body>
 </html>

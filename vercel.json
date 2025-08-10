@@ -2,25 +2,21 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/hug.py",
-      "use": "@vercel/python"
+      "src": "api/hug.js",
+      "use": "@vercel/node"
     },
     {
-      "src": "public/**",
+      "src": "public/index.html",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/api/hug",
-      "dest": "/api/hug.py"
+      "dest": "/api/hug.js"
     },
     {
-      "src": "/style.css",
-      "dest": "/public/style.css"
-    },
-    {
-      "src": "/(.*)",
+      "src": "/",
       "dest": "/public/index.html"
     }
   ]
